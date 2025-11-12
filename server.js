@@ -11,7 +11,7 @@ const upload = multer({ dest: "uploads/" });
 const FB_API = "https://graph.facebook.com/v20.0";
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
