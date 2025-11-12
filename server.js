@@ -1,8 +1,5 @@
-// ========== KAPI CLOUD ASSISTANT ==========
-// Server chạy ổn định trên Render / Node.js 22
-// ==========================================
+// ✅ KAPI CLOUD ASSISTANT (Render fixed version)
 
-// Các thư viện cần thiết
 import express from "express";
 import multer from "multer";
 import axios from "axios";
@@ -10,40 +7,35 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
-// Định nghĩa đường dẫn tuyệt đối
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Cấu hình Express
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Chỉ định thư mục chứa file tĩnh (HTML, CSS, JS, ảnh…)
-app.use(express.static(path.join(__dirname, "public")));
-
-// Cấu hình nơi lưu ảnh upload
-const upload = multer({ dest: "uploads/" });
-
-// URL API của Facebook
-const FB_API = "https://graph.facebook.com/v20.0";
-
-// ========== ROUTES ==========
-
-// 🏠 Trang chủ
+// ⚙️ Cấu hình để Render hiểu file HTML là trang web
 app.get("/", (req, res) => {
   const filePath = path.join(__dirname, "public", "index.html");
-  fs.readFile(filePath, "utf8", (err, data) => {
+  fs.readFile(filePath, "utf8", (err, html) => {
     if (err) {
+      console.error("Lỗi đọc index.html:", err);
       res.status(500).send("Lỗi đọc file index.html");
-    } else {
-      res.setHeader("Content-Type", "text/html; charset=utf-8");
-      res.end(data);
+      return;
     }
+    res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+    res.end(html);
   });
 });
 
-// 📤 API Đăng bài lên Fanpage
+// ⚙️ Cấp quyền file tĩnh (CSS, JS, ảnh)
+app.use("/static", express.static(path.join(__dirname, "public")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+const upload = multer({ dest: "uploads/" });
+const FB_API = "https://graph.facebook.com/v20.0";
+
+// 📤 API đăng bài lên Fanpage
 app.post("/post", upload.single("image"), async (req, res) => {
   const { caption, pageId, pageToken } = req.body;
   const image = req.file;
@@ -63,14 +55,10 @@ app.post("/post", upload.single("image"), async (req, res) => {
 
     res.send(`✅ Đăng bài thành công! ID bài viết: ${result.data.post_id}`);
   } catch (err) {
-    console.error("Lỗi khi đăng bài:", err.message);
+    console.error("❌ Lỗi khi đăng bài:", err.message);
     res.send("❌ Lỗi khi đăng bài: " + err.message);
   }
 });
 
-// ========== SERVER ==========
-
 const PORT = process.env.PORT || 10000;
-app.listen(PORT, () =>
-  console.log(`🚀 Server chạy tại cổng ${PORT}`)
-);
+app.listen(PORT, () => console.log(`🚀 Server chạy tại cổng ${PORT}`));
