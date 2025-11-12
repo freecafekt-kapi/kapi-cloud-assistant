@@ -1,40 +1,44 @@
-{\rtf1\ansi\ansicpg1252\cocoartf2513
-\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 AppleColorEmoji;}
-{\colortbl;\red255\green255\blue255;}
-{\*\expandedcolortbl;;}
-\paperw11900\paperh16840\margl1440\margr1440\vieww12600\viewh7800\viewkind0
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>KAPI Cloud Assistant ☁️</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9fafc;
+      color: #222;
+      text-align: center;
+      padding: 40px;
+    }
+    h1 { color: #007aff; }
+    input, button {
+      margin: 6px;
+      padding: 8px;
+      width: 250px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #007aff;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005fcc;
+    }
+  </style>
+</head>
+<body>
+  <h1>KAPI Cloud Assistant ☁️</h1>
+  <p>📸 Đăng ảnh tự động lên Facebook Page</p>
 
-\f0\fs24 \cf0 cat > public/index.html <<'EOF'\
-<!DOCTYPE html>\
-<html lang="vi">\
-  <head>\
-    <meta charset="UTF-8" />\
-    <title>KAPI Cloud Assistant</title>\
-    <style>\
-      body \{ font-family: Arial; background: #f6f6f6; padding: 40px; color: #333; \}\
-      input, button \{ margin: 8px 0; padding: 6px; width: 250px; \}\
-      button \{ background: #007bff; color: white; border: none; border-radius: 6px; \}\
-    </style>\
-  </head>\
-  <body>\
-    <h1>KAPI Cloud Assistant 
-\f1 \uc0\u9729 \u65039 
-\f0 </h1>\
-    <form method="POST" action="/post" enctype="multipart/form-data">\
-      <label>Page ID:</label><br />\
-      <input type="text" name="pageId" required /><br />\
-      <label>Page Token:</label><br />\
-      <input type="text" name="pageToken" required /><br />\
-      <label>Caption:</label><br />\
-      <input type="text" name="caption" /><br />\
-      <label>\uc0\u7842 nh:</label><br />\
-      <input type="file" name="image" required /><br />\
-      <button type="submit">
-\f1 \uc0\u55357 \u56548 
-\f0  \uc0\u272 \u259 ng b\'e0i</button>\
-    </form>\
-  </body>\
-</html>\
-EOF\
-}
+  <form id="uploadForm" enctype="multipart/form-data" method="POST" action="/post">
+    <label>Page ID:<br><input type="text" name="pageId" required></label><br>
+    <label>Page Token:<br><input type="text" name="pageToken" required></label><br>
+    <label>Caption:<br><input type="text" name="caption"></label><br>
+    <label>Ảnh:<br><input type="file" name="image" required></label><br>
+    <button type="submit">📤 Đăng bài</button>
+  </form>
+</body>
+</html>
