@@ -1,3 +1,7 @@
+app.use(express.static(path.join(__dirname, "public"), {
+  setHeaders: (res, path) => {
+    if (path.endsWith(".html")) {
+      res.setHeader("Content-Type", "text
 import express from "express";
 import multer from "multer";
 import axios from "axios";
@@ -13,9 +17,13 @@ const FB_API = "https://graph.facebook.com/v20.0";
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
+import fs from "fs";
+
 app.get("/", (req, res) => {
-  res.setHeader("Content-Type", "text/html; charset=utf-8");
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  const filePath = path.join(__dirname, "public", "index.html");
+  const html = fs.readFileSync(filePath, "utf8");
+  res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+  res.end(html);
 });
 
 app.post("/post", upload.single("image"), async (req, res) => {
